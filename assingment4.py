@@ -10,9 +10,9 @@ df5 = pd.read_excel('data/30-11-2018 to 30-05-2019.xlsx',skiprows=3)
 df6 = pd.read_excel('data/31-05-2019 to 28-11-2019.xlsx',skiprows=3)
 df7 = pd.read_excel('data/29-11-2019 to 31-12-2019.xlsx',skiprows=3)
 
-#Clean first data frame
-#january_june_2017 = january_june_2017.drop(january_june_2017.tail(12).index)
 
+#Remove last 11 elements
+#remove columns 
 for i in df1,df2,df3,df4,df5,df6,df7:
     i.drop(i.tail(11).index,inplace = True) 
     (i.drop(columns = [
@@ -29,20 +29,19 @@ for i in df1,df2,df3,df4,df5,df6,df7:
                     'Vel Viento','Vel Viento.1','Vel Viento.2',
                     'Dir Viento', 'Dir Viento.1','Dir Viento.2',
                     'PM2.5 Flow','CO2',
-                    'Temp_4m'
+                    'Temp_4m',
+                    'PM10','PM10.1','PM10.2',
+                    'Temperatura','Temperatura.1'
                    ],inplace = True))
 
 frames = [df1,df2,df3,df4,df5,df6,df7]
+#Put together all dataframes
 df = pd.concat(frames)
 df = df.dropna()
+
+#Rename columns
 (df.rename(columns = {
                         'Unnamed: 0':'Date',
-                        'PM10':'PM10 (µg/m3)',
-                        'PM10.1': 'PM10 .1 (µg/m3)',
-                        'PM10.2': 'PM10 .2 (µg/m3)',
-                        'Temperatura': 'Temperature (°C)',
-                        'Temperatura.1': 'Temperature.1 (°C)',
-                        'Temperatura.2': 'Temperature.2 (°C)',
                         'Precipitacion':'Precipitation (mm)',
                         'Precipitacion.1':'Precipitation.1 (mm)',
                         'Precipitacion.2':'Precipitation.2 (mm)',
@@ -51,7 +50,8 @@ df = df.dropna()
                         'PM2.5.2' : 'PM2.5 .2 (µg/m3)',
                         },inplace = True))
 
-
-
 df = df.set_index('Date')
+
+df = df.replace('----',np.nan).dropna()
+
 print(df)
