@@ -31,5 +31,27 @@ for i in df1,df2,df3,df4,df5,df6,df7:
                     'PM2.5 Flow','CO2',
                     'Temp_4m'
                    ],inplace = True))
-    #print(i)
-print(df1)
+
+frames = [df1,df2,df3,df4,df5,df6,df7]
+df = pd.concat(frames)
+df = df.dropna()
+(df.rename(columns = {
+                        'Unnamed: 0':'Date',
+                        'PM10':'PM10 (µg/m3)',
+                        'PM10.1': 'PM10 .1 (µg/m3)',
+                        'PM10.2': 'PM10 .2 (µg/m3)',
+                        'Temperatura': 'Temperature (°C)',
+                        'Temperatura.1': 'Temperature.1 (°C)',
+                        'Temperatura.2': 'Temperature.2 (°C)',
+                        'Precipitacion':'Precipitation (mm)',
+                        'Precipitacion.1':'Precipitation.1 (mm)',
+                        'Precipitacion.2':'Precipitation.2 (mm)',
+                        'PM2.5' : 'PM2.5 (µg/m3)',
+                        'PM2.5.1' : 'PM2.5 .1 (µg/m3)',
+                        'PM2.5.2' : 'PM2.5 .2 (µg/m3)',
+                        },inplace = True))
+
+
+
+df = df.set_index('Date')
+print(df)
