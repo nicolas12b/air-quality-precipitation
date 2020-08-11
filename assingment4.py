@@ -1,7 +1,10 @@
 
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as ptl 
+import matplotlib.pyplot as plt 
+from matplotlib.dates import DateFormatter
+from pandas.plotting import register_matplotlib_converters
+register_matplotlib_converters()
 df1 = pd.read_excel('data/01-01-2017 to 30-06-2017.xlsx',skiprows=3)
 df2 = pd.read_excel('data/01-07-2017 to 01-12-2017.xlsx',skiprows=3)
 df3 = pd.read_excel('data/02-12-2017 to 31-05-2018.xlsx',skiprows=3)
@@ -50,8 +53,25 @@ df = df.dropna()
                         'PM2.5.2' : 'PM2.5 .2 (µg/m3)',
                         },inplace = True))
 
-df = df.set_index('Date')
-
+#df = df.set_index('Date')
 df = df.replace('----',np.nan).dropna()
 
-print(df)
+df['Date'] = df['Date'].str.replace(r' 24:00','')
+
+date = df['Date'].values
+date  = pd.to_datetime(date,format = '%d-%m-%Y')
+
+
+print(date)
+
+
+#Plot
+fig , ax = plt.subplots(figsize =(9,3))
+plt.bar(date,df['Precipitation (mm)'],width=1)
+date_form = DateFormatter('%d-%m-%Y')
+ax.xaxis.set_major_formatter(date_form)
+plt.show()
+
+
+
+
