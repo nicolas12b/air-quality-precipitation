@@ -1,4 +1,3 @@
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt 
@@ -58,20 +57,31 @@ df = df.replace('----',np.nan).dropna()
 
 df['Date'] = df['Date'].str.replace(r' 24:00','')
 
-date = df['Date'].values
-date  = pd.to_datetime(date,format = '%d-%m-%Y')
-
-
-print(date)
-
 
 #Plot
-fig , ax = plt.subplots(figsize =(9,3))
-plt.bar(date,df['Precipitation (mm)'],width=1)
-date_form = DateFormatter('%d-%m-%Y')
-ax.xaxis.set_major_formatter(date_form)
+
+figure = plt.figure(figsize = (8,20)) 
+plt.suptitle('Precipitation and Air Quality from 2017 to 2019 in Bogota, Colombia ')
+
+plt.subplot(311,ylabel = 'Precipitation (mm)')
+plt.scatter(df['PM2.5 (µg/m3)'],df['Precipitation (mm)'],color  = 'r')
+fig = plt.gca()
+fig.spines['right'].set_visible(False)
+fig.spines['top'].set_visible(False)
+
+plt.subplot(312,ylabel = 'Precipitation (mm)')
+plt.scatter(df['PM2.5 .1 (µg/m3)'],df['Precipitation.1 (mm)'],color = 'g')
+fig = plt.gca()
+fig.spines['right'].set_visible(False)
+fig.spines['top'].set_visible(False)
+
+plt.subplot(313,xlabel = 'PM2.5 (µg/m3)',ylabel = 'Precipitation (mm)')
+plt.scatter(df['PM2.5 .2 (µg/m3)'],df['Precipitation.2 (mm)'],color = 'orange')
+
+fig = plt.gca()
+fig.spines['right'].set_visible(False)
+fig.spines['top'].set_visible(False)
+names = ['Station 1','Station 2', 'Station 3']
+figure.legend(names,loc = 'center right')
+
 plt.show()
-
-
-
-
